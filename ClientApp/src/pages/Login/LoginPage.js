@@ -1,20 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TextField } from '@mui/material'
 import './Login.styles.css'
 import { Button } from "reactstrap";
 import { useNavigate } from "react-router-dom";
-import {reactLocalStorage} from 'reactjs-localstorage';
+import { reactLocalStorage } from 'reactjs-localstorage';
 
 
 function LoginPage() {
-
-
     let [userData, setUserData] = useState({
         username: "",
         password: "",
     });
-
     let navigate = useNavigate();
+
+    useEffect(() => {
+        if (reactLocalStorage.getObject("userdata").isAuthenticated) {
+            navigate('/app');
+        }
+    })
+
 
     let handleChange = ((event) => {
         console.log(event.target.name, event.target.value)
@@ -26,6 +30,9 @@ function LoginPage() {
 
     let handleLogin = (async () => {
         console.log(userData);
+
+
+
 
 
         const response = await fetch('loginuser', {

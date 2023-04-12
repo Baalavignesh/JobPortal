@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FormControl, TextField, InputLabel, Select, MenuItem } from '@mui/material'
 import './Auth.styles.css'
 import { Button } from "reactstrap";
@@ -18,6 +18,12 @@ function SignupPage() {
     });
 
     let navigate = useNavigate();
+
+    useEffect(() => {
+        if(reactLocalStorage.getObject("userdata").isAuthenticated) {
+            navigate('/app');
+        }
+    })
 
     let handleChange = ((event) => {
         console.log(event.target.name, event.target.value)

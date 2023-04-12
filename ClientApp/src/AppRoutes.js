@@ -1,3 +1,4 @@
+import AdminPage from "./pages/Admin/AdminPage";
 import HomePage from "./pages/Home/HomePage";
 import LoginPage from "./pages/Login/LoginPage";
 import SignupPage from "./pages/SignUp/SignupPage";
@@ -15,6 +16,10 @@ const AppRoutes = [
   {
     path: '/app',
     element: <HomePage />
+  },
+  {
+    path: '/adminpage',
+    element: <AdminPage />
   }
   
 ];
