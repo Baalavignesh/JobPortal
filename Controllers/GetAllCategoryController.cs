@@ -4,6 +4,8 @@ using Microsoft.Data.SqlClient;
 
 namespace JobPortal.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class GetAllCategoryController : Controller
     {
         IConfiguration configuration;
