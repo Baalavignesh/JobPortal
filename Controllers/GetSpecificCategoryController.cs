@@ -4,21 +4,23 @@ using Microsoft.Data.SqlClient;
 
 namespace JobPortal.Controllers
 {
-    public class DeleteSubCategoryController : Controller
+    public class GetSpecificCategoryController : Controller
     {
+
         IConfiguration configuration;
 
-        public DeleteSubCategoryController(IConfiguration configuration)
+        public GetSpecificCategoryController(IConfiguration configuration)
         {
             this.configuration = configuration;
         }
 
         [HttpPost]
-        public SubCategoryModel DeleteSubCategory([FromBody] SubCategoryModel SubCategoryInfo)
+        public CategoryModel GetSpecificCategory([FromBody] CategoryModel CategoryInfo)
         {
-
+            
             try
             {
+
                 string conn = configuration.GetConnectionString("OnlineJobPortal");
 
                 SqlConnection connection = new SqlConnection();
@@ -28,17 +30,19 @@ namespace JobPortal.Controllers
 
                 try
                 {
-                    cmd.CommandText = $"DELETE FROM SubCategory WHERE SubCategory_ID = {SubCategoryInfo.SubCategoryId}";
+                    cmd.CommandText = $"SELECT * FROM CATEGORY WHERE CATEGORY_ID = {CategoryInfo.CategoryId}";
 
-                    int rowsAffected = cmd.ExecuteNonQuery();
+                    SqlDataReader reader = cmd.ExecuteReader();
 
-                    if (rowsAffected > 0)
+                    if (reader.Read())
                     {
 
-                        return new SubCategoryModel
+                       return new CategoryModel
                         {
-                            isDeleted = true,
-                        };
+                            CategoryId = (int)reader["CATEGORY_ID"],
+                            CategoryName = (string)reader["CATEGORY_NAME"],
+                            isFetched = true,
+                        }; 
 
                     }
 
@@ -46,9 +50,9 @@ namespace JobPortal.Controllers
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    return new SubCategoryModel
+                    return new CategoryModel
                     {
-                        isDeleted = false,
+                        isFetched = false,
                     };
 
                 }
@@ -57,15 +61,15 @@ namespace JobPortal.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return new SubCategoryModel
+                return new CategoryModel
                 {
-                    isDeleted = false,
+                    isFetched = false,
                 };
 
             }
-            return new SubCategoryModel
+            return new CategoryModel
             {
-                isDeleted = false,
+                isFetched = false,
             };
         }
 
