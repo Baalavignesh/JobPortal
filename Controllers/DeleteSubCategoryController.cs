@@ -2,7 +2,9 @@
 
 namespace JobPortal.Controllers
 {
-    public class AddSubCategory : Controller
+    [ApiController]
+    [Route("[controller]")]
+    public class DeleteSubCategoryController : Controller
     {
         public IActionResult Index()
         {
