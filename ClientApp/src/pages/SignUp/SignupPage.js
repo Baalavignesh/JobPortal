@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import { FormControl, TextField, InputLabel, Select, MenuItem } from '@mui/material'
 import './Auth.styles.css'
 import { Button } from "reactstrap";
+import { useNavigate } from "react-router-dom";
+import {reactLocalStorage} from 'reactjs-localstorage';
+ 
 
-function AuthPage() {
+
+function SignupPage() {
 
     const role = ["Employer", "JobSeeker", "Admin"]
 
@@ -12,6 +16,8 @@ function AuthPage() {
         password: "",
         role: ""
     });
+
+    let navigate = useNavigate();
 
     let handleChange = ((event) => {
         console.log(event.target.name, event.target.value)
@@ -23,19 +29,27 @@ function AuthPage() {
 
     let handleSignUp = (async () => {
         console.log(userData);
-        await fetch('/User/CreateUser', {
+
+
+        const response = await fetch('createuser', {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(userData),
-        }).then((res) => {
-            let data = res.json();
-            console.log(data);
         });
+        const data = await response.json();
+        console.log(data);
+
+        if (data.isAuthenticated == true) {
+            reactLocalStorage.setObject('userdata', data);
+            navigate('/app');
+        }
+        else {
+            navigate('/');
+        }
 
     });
-
 
     return (
         <div className="auth-main">
@@ -67,9 +81,13 @@ function AuthPage() {
                 <Button className="inputfield" onClick={() => { handleSignUp() }}>Sign Up</Button>
 
             </div>
+
+            <hr></hr>
+            <p>Already a user?</p>
+            <Button className="inputfield" onClick={() => { navigate('/login') }}>Login</Button>
         </div>
 
     );
 }
 
-export default AuthPage;
+export default SignupPage;
