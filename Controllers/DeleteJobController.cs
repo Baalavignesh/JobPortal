@@ -6,17 +6,17 @@ namespace JobPortal.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class DeleteCategoryController : Controller
+    public class DeleteJobController : Controller
     {
         IConfiguration configuration;
 
-        public DeleteCategoryController(IConfiguration configuration)
+        public DeleteJobController(IConfiguration configuration)
         {
             this.configuration = configuration;
         }
 
         [HttpPost]
-        public CategoryModel DeleteCategory([FromBody] CategoryModel CategoryInfo)
+        public JobsModel DeleteJob([FromBody] JobsModel JobsInfo)
         {
 
             try
@@ -30,14 +30,14 @@ namespace JobPortal.Controllers
 
                 try
                 {
-                    cmd.CommandText = $"DELETE FROM CATEGORY WHERE CATEGORY_ID = {CategoryInfo.CategoryId}";
+                    cmd.CommandText = $"DELETE FROM JOBS WHERE JOB_ID = {JobsInfo.JobId}";
 
                     int rowsAffected = cmd.ExecuteNonQuery();
 
                     if (rowsAffected > 0)
                     {
 
-                        return new CategoryModel
+                        return new JobsModel
                         {
                             isDeleted = true,
                         };
@@ -48,7 +48,7 @@ namespace JobPortal.Controllers
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    return new CategoryModel
+                    return new JobsModel
                     {
                         isDeleted = false,
                     };
@@ -59,17 +59,16 @@ namespace JobPortal.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return new CategoryModel
+                return new JobsModel
                 {
                     isDeleted = false,
                 };
 
             }
-            return new CategoryModel
+            return new JobsModel
             {
                 isDeleted = false,
             };
         }
-
     }
 }

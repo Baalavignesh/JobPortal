@@ -32,7 +32,7 @@ namespace JobPortal.Controllers
 
                 try
                 {
-                    cmd.CommandText = $"UPDATE SubCategory SET SubCategory_NAME = '{SubCategoryInfo.SubCategoryName}', CATEGORY_ID = {SubCategoryInfo.CategoryId} WHERE SubCategory_ID = {SubCategoryInfo.SubCategoryId};";
+                    cmd.CommandText = $"UPDATE SUBCATEGORY SET SUBCATEGORY_NAME = '{SubCategoryInfo.SubCategoryName}', CATEGORY_ID = {SubCategoryInfo.CategoryId} WHERE SUBCATEGORY_ID = {SubCategoryInfo.SubCategoryId};";
                     cmd.ExecuteNonQuery();
 
                     return new SubCategoryModel

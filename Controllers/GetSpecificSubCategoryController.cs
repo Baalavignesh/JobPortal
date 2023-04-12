@@ -30,7 +30,7 @@ namespace JobPortal.Controllers
 
                 try
                 {
-                    cmd.CommandText = $"SELECT * FROM SubCategory WHERE SubCategory_ID = {SubCategoryInfo.SubCategoryId}";
+                    cmd.CommandText = $"SELECT * FROM SUBCATEGORY WHERE SUBCATEGORY_ID = {SubCategoryInfo.SubCategoryId}";
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -39,9 +39,9 @@ namespace JobPortal.Controllers
 
                         return new SubCategoryModel
                         {
-                            SubCategoryId = (int)reader["SubCategory_ID"],
-                            SubCategoryName = (string)reader["SubCategory_NAME"],
-                            CategoryId = (int)reader["Category_ID"],
+                            SubCategoryId = (int)reader["SUBCATEGORY_ID"],
+                            SubCategoryName = (string)reader["SUBCATEGORY_NAME"],
+                            CategoryId = (int)reader["CATEGORY_ID"],
                             isFetched = true,
                         };
 

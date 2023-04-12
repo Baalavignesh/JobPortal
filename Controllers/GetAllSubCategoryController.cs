@@ -33,7 +33,7 @@ namespace JobPortal.Controllers
 
                 try
                 {
-                    cmd.CommandText = $"SELECT * FROM SubCategory";
+                    cmd.CommandText = $"SELECT * FROM SUBCATEGORY";
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -42,9 +42,9 @@ namespace JobPortal.Controllers
 
                         subcategories.Add(new SubCategoryModel
                         {
-                            SubCategoryId = (int)reader["SubCategory_ID"],
-                            SubCategoryName = (string)reader["SubCategory_NAME"],
-                            CategoryId = (int)reader["Category_ID"],
+                            SubCategoryId = (int)reader["SUBCATEGORY_ID"],
+                            SubCategoryName = (string)reader["SUBCATEGORY_NAME"],
+                            CategoryId = (int)reader["CATEGORY_ID"],
                             isFetched = true,
                         }); ;
 

@@ -6,21 +6,23 @@ namespace JobPortal.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class DeleteCategoryController : Controller
+    public class GetAllJobController : Controller
     {
         IConfiguration configuration;
+        List<JobsModel> jobs;
 
-        public DeleteCategoryController(IConfiguration configuration)
+        public GetAllJobController(IConfiguration configuration)
         {
             this.configuration = configuration;
         }
 
         [HttpPost]
-        public CategoryModel DeleteCategory([FromBody] CategoryModel CategoryInfo)
+        public List<JobsModel> GetAllJob([FromBody] JobsModel JobsInfo)
         {
-
+            jobs = new List<JobsModel>();
             try
             {
+
                 string conn = configuration.GetConnectionString("OnlineJobPortal");
 
                 SqlConnection connection = new SqlConnection();
@@ -30,17 +32,22 @@ namespace JobPortal.Controllers
 
                 try
                 {
-                    cmd.CommandText = $"DELETE FROM CATEGORY WHERE CATEGORY_ID = {CategoryInfo.CategoryId}";
+                    cmd.CommandText = $"SELECT * FROM JOBS";
 
-                    int rowsAffected = cmd.ExecuteNonQuery();
+                    SqlDataReader reader = cmd.ExecuteReader();
 
-                    if (rowsAffected > 0)
+                    while (reader.Read())
                     {
 
-                        return new CategoryModel
+                        jobs.Add(new JobsModel
                         {
-                            isDeleted = true,
-                        };
+                            JobId = (int)reader["JOB_ID"],
+                            JobName = (string)reader["JOB_TITLE"],
+                            JobDescribtion = (string)reader["JOB_DESCRIPTION"],
+                            SubCategoryId = (int)reader["SUBCATEGORY_ID"],
+                            EmployerId = (int)reader["EMPLIYER_ID"],
+                            isFetched = true,
+                        }); 
 
                     }
 
@@ -48,10 +55,6 @@ namespace JobPortal.Controllers
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    return new CategoryModel
-                    {
-                        isDeleted = false,
-                    };
 
                 }
 
@@ -59,16 +62,13 @@ namespace JobPortal.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return new CategoryModel
-                {
-                    isDeleted = false,
-                };
 
             }
-            return new CategoryModel
+            jobs.Add(new JobsModel
             {
-                isDeleted = false,
-            };
+                isFetched = false,
+            });
+            return jobs;
         }
 
     }

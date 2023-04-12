@@ -30,7 +30,7 @@ namespace JobPortal.Controllers
 
                 try
                 {
-                    cmd.CommandText = $"DELETE FROM SubCategory WHERE SubCategory_ID = {SubCategoryInfo.SubCategoryId}";
+                    cmd.CommandText = $"DELETE FROM SUBCATEGORY WHERE SUBCATEGORY_ID = {SubCategoryInfo.SubCategoryId}";
 
                     int rowsAffected = cmd.ExecuteNonQuery();
 
