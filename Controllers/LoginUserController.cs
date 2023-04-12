@@ -8,13 +8,23 @@ namespace JobPortal.Controllers
     [Route("[controller]")]
     public class LoginUserController : Controller
     {
+        IConfiguration configuration;
+
+        public LoginUserController(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+        }
+
         [HttpPost]
         public AuthenticatedModel LoginUser([FromBody] UserModel userinfo)
         {
             try
             {
 
-                SqlConnection connection = new SqlConnection("Data Source=5CG9441HWP;Initial Catalog=OnlineJobPortal;Integrated Security=True;Encrypt=False;");
+                string conn = configuration.GetConnectionString("OnlineJobPortal");
+
+                SqlConnection connection = new SqlConnection();
+                connection.ConnectionString = conn;
                 connection.Open();
                 SqlCommand cmd = connection.CreateCommand();
 

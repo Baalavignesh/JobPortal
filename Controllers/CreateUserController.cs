@@ -4,10 +4,19 @@ using Microsoft.Data.SqlClient;
 
 namespace JobPortal.Controllers
 {
+    
+
     [ApiController]
     [Route("[controller]")]
     public class CreateUserController : Controller
     {
+        IConfiguration configuration;
+
+        public CreateUserController(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+        }
+
         [HttpPost]
         public AuthenticatedModel CreateUser([FromBody] UserModel userinfo)
         {
@@ -17,7 +26,10 @@ namespace JobPortal.Controllers
                 Console.WriteLine(userinfo.UserName);
                 Console.WriteLine(userinfo.Password);
 
-                SqlConnection connection = new SqlConnection("Data Source=5CG9410FHM;Initial Catalog=OnlineJobPortal;Integrated Security=True;Encrypt=False;");
+                string conn = configuration.GetConnectionString("OnlineJobPortal");
+
+                SqlConnection connection = new SqlConnection();
+                connection.ConnectionString = conn; 
                 connection.Open();
                 SqlCommand cmd = connection.CreateCommand();
 
@@ -25,6 +37,8 @@ namespace JobPortal.Controllers
                 {
                     cmd.CommandText = $"INSERT INTO USERS(USER_NAME,PASSWORD,ROLE) VALUES ('{userinfo.UserName}','{userinfo.Password}','{userinfo.Role}');";
                     cmd.ExecuteNonQuery();
+
+                    Console.WriteLine("Hey "+userinfo.UserId);
                     return new AuthenticatedModel
                     {
                         UserId = userinfo.UserId,
