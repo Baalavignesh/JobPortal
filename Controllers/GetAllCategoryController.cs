@@ -16,8 +16,8 @@ namespace JobPortal.Controllers
             this.configuration = configuration;
         }
 
-        [HttpPost]
-        public List<CategoryModel> GetAllCategory([FromBody] CategoryModel CategoryInfo)
+        [HttpGet]
+        public List<CategoryModel> GetAllCategory()
         {
             categories = new List<CategoryModel>();
             try
@@ -32,7 +32,7 @@ namespace JobPortal.Controllers
 
                 try
                 {
-                    cmd.CommandText = $"SELECT * FROM CATEGORY";
+                    cmd.CommandText = $"SELECT CATEGORY_ID, CATEGORY_NAME FROM CATEGORY";
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -58,7 +58,7 @@ namespace JobPortal.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.Message);  
                 
             }
             categories.Add(new CategoryModel

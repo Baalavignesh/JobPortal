@@ -50,7 +50,7 @@ function LoginPage() {
             navigate('/app');
         }
         else {
-            navigate('/');
+            navigate('/login');
         }
 
     });

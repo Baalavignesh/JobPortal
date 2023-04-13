@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
+import { Link, useNavigate } from 'react-router-dom';
 import { reactLocalStorage } from "reactjs-localstorage";
+import { Button } from "@mui/material";
 
 
 function MyNavbar() {
 
     let [userRole, setUserRole] = useState();
+    let navigate = useNavigate();
+
     useEffect(() => {
         setUserRole(reactLocalStorage.getObject("userdata").role);
     })
@@ -15,7 +18,9 @@ function MyNavbar() {
         <div className="navbar-main">
             <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" container light>
                 <NavbarBrand tag={Link} to="/">JobPortal</NavbarBrand>
-                <ul className="navbar-nav flex-grow">
+                <Collapse isOpen={true} navbar>
+                <Nav className="me-auto" navbar>
+
                     <NavItem>
                         <NavLink tag={Link} className="text-dark" to="/app">Home</NavLink>
                     </NavItem>
@@ -26,12 +31,20 @@ function MyNavbar() {
                         <NavLink tag={Link} className="text-dark" to="/postjob">Post Job</NavLink>
                     </NavItem>
 
-                    {userRole == "Admin" && 
-                    <NavItem>
-                        <NavLink tag={Link} className="text-dark" to="/adminpage">Admin Page</NavLink>
-                    </NavItem>
+                    {userRole == "Admin" &&
+                        <NavItem>
+                            <NavLink tag={Link} className="text-dark" to="/adminpage">Admin Page</NavLink>
+                        </NavItem>
                     }
-                </ul>
+
+                    </Nav>
+                        <Button color="error" variant="contained" onClick={() => {
+                            reactLocalStorage.clear();
+                            navigate('/');
+                        }}>Logout</Button>
+                </Collapse>
+
+
             </Navbar>
         </div>
     );

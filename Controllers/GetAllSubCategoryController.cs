@@ -12,13 +12,14 @@ namespace JobPortal.Controllers
         IConfiguration configuration;
         List<SubCategoryModel> subcategories;
 
+
         public GetAllSubCategoryController(IConfiguration configuration)
         {
             this.configuration = configuration;
         }
 
-        [HttpPost]
-        public List<SubCategoryModel> GetAllSubCategory([FromBody] SubCategoryModel SubCategoryInfo)
+        [HttpGet]
+        public List<SubCategoryModel> GetAllSubCategory()
         {
             subcategories = new List<SubCategoryModel>();
             try
@@ -33,7 +34,7 @@ namespace JobPortal.Controllers
 
                 try
                 {
-                    cmd.CommandText = $"SELECT * FROM SUBCATEGORY";
+                    cmd.CommandText = $"SELECT SUBCATEGORY_ID, SUBCATEGORY_NAME, CATEGORY_ID FROM SUBCATEGORY";
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -45,7 +46,6 @@ namespace JobPortal.Controllers
                             SubCategoryId = (int)reader["SUBCATEGORY_ID"],
                             SubCategoryName = (string)reader["SUBCATEGORY_NAME"],
                             CategoryId = (int)reader["CATEGORY_ID"],
-                            isFetched = true,
                         }); ;
 
                     }

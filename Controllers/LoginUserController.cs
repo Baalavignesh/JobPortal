@@ -30,20 +30,26 @@ namespace JobPortal.Controllers
 
                 try
                 {
-                    cmd.CommandText = $"SELECT * FROM USERS WHERE UserName = {userinfo.UserName}";
+                    Console.WriteLine(userinfo.UserName);
+                    Console.WriteLine(userinfo.Password);
+                    cmd.CommandText = $"SELECT * FROM USERS WHERE USER_NAME = {userinfo.UserName}";
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     if (reader.Read())
                     {
-                        if (userinfo.Password == reader["PASSWORD"])
+                        Console.WriteLine("DB data");
+                        Console.WriteLine(reader.GetString(0));
+                        Console.WriteLine(reader.GetString(1));
+                        Console.WriteLine(reader.GetString(2));
+                        if (userinfo.Password == reader.GetString(3))
                         {
                             return new AuthenticatedModel
                             {
-                                UserId = userinfo.UserId,
-                                UserName = userinfo.UserName,
+                                UserId = reader.GetInt32(0),
+                                UserName = reader.GetString(1),
                                 isAuthenticated = true,
-                                Role = (string)reader["ROLE"]
+                                Role = reader.GetString(2)
                             };
                         }
                         else
