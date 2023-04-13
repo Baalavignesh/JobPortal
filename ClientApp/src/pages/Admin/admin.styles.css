@@ -4,26 +4,22 @@
 }
 .admin-body {
     display: flex;
-    /* height: 90%; */
 }
 
 .admin-controls {
-    width: 30vw;
-    /* height: 100%; */
+    width: 25vw;
+    height: 100%;
     /* display: flex; */
     flex-direction: column;
     text-align: center;
     justify-content: space-around;
-    /* padding: 0rem 2rem; */
     border-right: 1px solid black;
 }
 
 .cron-button {
-    /* height: 150px; */
-    /* display: flex; */
-    /* flex-direction: column; */
+    display: flex;
+    flex-direction:column;
     text-align: center;
-    
     justify-content: space-evenly;
     background-color: #fadcdc;
     margin: 1rem;
@@ -34,8 +30,9 @@
 .response-side {
     display: flex;
     justify-content: center;
-    /* align-items: center; */
+    align-items: center;
     width: 80vw;
+    height: 100%;
 }
 
 

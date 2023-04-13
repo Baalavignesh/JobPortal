@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import MyNavbar from "../../components/Navbar/Navbar";
 import { reactLocalStorage } from "reactjs-localstorage";
 import { useNavigate } from "react-router-dom";
-import { Button, TextField } from "@mui/material";
+import { Button, Divider, TextField } from "@mui/material";
 import './admin.styles.css'
 
 import Table from '@mui/material/Table';
@@ -107,10 +107,10 @@ function AdminPage() {
     }
 
     const buttonData = [
-        { name: "addcategory", placeholder: "Add Category", color: "primary", background: "aliceblue", handlefunction: handleAddCategory },
-        { name: "addsubcategory", placeholder: "Add Sub Category", color: "primary", background: "aliceblue", handlefunction: handleAddSubCategory, name2: "categoryidforsub", placeholder2: "Category Id", },
-        { name: "deletecategory", placeholder: "Delete Category", color: "error", background: "aliceblue", handlefunction: handleDeleteCategory },
-        { name: "deletesubcategory", placeholder: "Delete Sub Category", color: "error", background: "aliceblue", handlefunction: handleAddSubCategory, handlefunction: handleDeleteSubCategory }
+        { name: "addcategory", placeholder: "Add Category", color: "primary", background: "white", handlefunction: handleAddCategory },
+        { name: "addsubcategory", placeholder: "Add Sub Category", color: "primary", background: "white", handlefunction: handleAddSubCategory, name2: "categoryidforsub", placeholder2: "Category Id", },
+        { name: "deletecategory", placeholder: "Delete Category", color: "error", background: "white", handlefunction: handleDeleteCategory },
+        { name: "deletesubcategory", placeholder: "Delete Sub Category", color: "error", background: "white", handlefunction: handleAddSubCategory, handlefunction: handleDeleteSubCategory }
     ];
 
 
@@ -175,34 +175,38 @@ function AdminPage() {
             <MyNavbar />
             <div className="admin-body">
                 <div className="admin-controls">
+                    <div style={{display:"flex", justifyContent:"space-evenly"}}> 
+                        <Button variant="contained" color="success" style={{ margin: "1rem" }} onClick={handleViewCategory}>View Category</Button>
+                        <Button variant="contained" color="success" style={{ margin: "1rem" }} onClick={handleViewSubCategory}>View Sub Category</Button>
 
-                    <Button variant="contained" color="success" style={{ margin: "1rem" }} onClick={handleViewCategory}>View Category</Button>
-                    <Button variant="contained" color="success" style={{ margin: "1rem" }} onClick={handleViewSubCategory}>View Sub Category</Button>
-
+                    </div>
+<Divider />
                     {buttonData.map((button, index) => {
                         return <div className="cron-button" key={index} style={{
                             backgroundColor: button.background
                         }}>
                             {button.name === "addsubcategory" &&
                                 <TextField onChange={handleChange}
-                                    fullWidth
+                                    style={{ marginBottom: "12px" }}
                                     placeholder={button.placeholder2}
                                     name={button.name2} />
 
                             }
-                            <TextField fullWidth
+                            <TextField
                                 onChange={handleChange}
                                 placeholder={button.placeholder}
                                 value={allTextField[button.name]}
                                 name={button.name} />
-
-                            <Button
-                                variant="contained"
-                                color={button.color}
-                                onClick={button.handlefunction}
-                                style={{margin:"1rem"}}
-                            >
-                                {button.placeholder}</Button>
+                            <div>
+                                <Button
+                                    variant="contained"
+                                    color={button.color}
+                                    onClick={button.handlefunction}
+                                    style={{ margin: "1rem" }}
+                                >
+                                    {button.placeholder}</Button>
+                            </div>
+                            
                         </div>
                     })}
                 </div>
@@ -236,7 +240,7 @@ function AdminPage() {
                                 </Table>
                             </TableContainer>
                         </div>
-                        : <h1>{serverResponse}</h1>
+                        : <h2>{serverResponse}</h2>
 
                     }
 
