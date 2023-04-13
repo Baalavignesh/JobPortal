@@ -44,7 +44,7 @@ namespace JobPortal.Controllers
                             JobName = (string)reader["JOB_TITLE"],
                             JobDescribtion = (string)reader["JOB_DESCRIPTION"],
                             SubCategoryId = (int)reader["SUBCATEGORY_ID"],
-                            EmployerId = (int)reader["EMPLIYER_ID"],
+                            EmployerId = (int)reader["EMPLOYER_ID"],
                             isFetched = true,
                         };
 
