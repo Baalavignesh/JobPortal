@@ -16,8 +16,8 @@ namespace JobPortal.Controllers
             this.configuration = configuration;
         }
 
-        [HttpPost]
-        public List<JobsModel> GetAllJob([FromBody] JobsModel JobsInfo)
+        [HttpGet]
+        public List<JobsModel> GetAllJob()
         {
             jobs = new List<JobsModel>();
             try
@@ -32,13 +32,13 @@ namespace JobPortal.Controllers
 
                 try
                 {
-                    cmd.CommandText = $"SELECT * FROM JOBS";
+                    cmd.CommandText = "SELECT * FROM JOBS";
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     while (reader.Read())
                     {
-
+                        Console.WriteLine((int)reader["JOB_ID"]);
                         jobs.Add(new JobsModel
                         {
                             JobId = (int)reader["JOB_ID"],
@@ -47,10 +47,9 @@ namespace JobPortal.Controllers
                             SubCategoryId = (int)reader["SUBCATEGORY_ID"],
                             EmployerId = (int)reader["EMPLIYER_ID"],
                             isFetched = true,
-                        }); 
+                        });
 
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -64,10 +63,6 @@ namespace JobPortal.Controllers
                 Console.WriteLine(ex.Message);
 
             }
-            jobs.Add(new JobsModel
-            {
-                isFetched = false,
-            });
             return jobs;
         }
 
