@@ -17,7 +17,8 @@ function HomePage() {
         <div>
             <MyNavbar />
             <Container>
-                Welcome
+                <h1>View Jobs Here</h1>
+                
 
             </Container>
         </div>

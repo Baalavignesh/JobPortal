@@ -17,15 +17,12 @@ function MyNavbar() {
     return (
         <div className="navbar-main">
             <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" container light>
-                <NavbarBrand tag={Link} to="/">JobPortal</NavbarBrand>
+                <NavbarBrand tag={Link} to="/app">JobPortal</NavbarBrand>
                 <Collapse isOpen={true} navbar>
                 <Nav className="me-auto" navbar>
 
                     <NavItem>
                         <NavLink tag={Link} className="text-dark" to="/app">Home</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink tag={Link} className="text-dark" to="/searchjobs">Search Jobs</NavLink>
                     </NavItem>
                     <NavItem>
                         <NavLink tag={Link} className="text-dark" to="/postjob">Post Job</NavLink>
