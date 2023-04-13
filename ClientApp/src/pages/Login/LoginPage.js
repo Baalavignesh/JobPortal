@@ -32,9 +32,6 @@ function LoginPage() {
         console.log(userData);
 
 
-
-
-
         const response = await fetch('loginuser', {
             method: "POST",
             headers: {
@@ -45,7 +42,7 @@ function LoginPage() {
         const data = await response.json();
         console.log(data);
 
-        if (data.isAuthenticated == true) {
+        if (data.isAuthenticated === true) {
             reactLocalStorage.setObject('userdata', data);
             navigate('/app');
         }

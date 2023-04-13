@@ -32,34 +32,22 @@ namespace JobPortal.Controllers
                 {
                     Console.WriteLine(userinfo.UserName);
                     Console.WriteLine(userinfo.Password);
-                    cmd.CommandText = $"SELECT * FROM USERS WHERE USER_NAME = {userinfo.UserName}";
+                    cmd.CommandText = $"SELECT * FROM USERS WHERE USER_NAME = '{userinfo.UserName}' AND PASSWORD = '{userinfo.Password}'";
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     if (reader.Read())
                     {
                         Console.WriteLine("DB data");
-                        Console.WriteLine(reader.GetString(0));
-                        Console.WriteLine(reader.GetString(1));
-                        Console.WriteLine(reader.GetString(2));
-                        if (userinfo.Password == reader.GetString(3))
+                        Console.WriteLine((int)reader["USER_ID"]);
+                        Console.WriteLine((string)reader["ROLE"]);
+                        return new AuthenticatedModel
                         {
-                            return new AuthenticatedModel
-                            {
-                                UserId = reader.GetInt32(0),
-                                UserName = reader.GetString(1),
-                                isAuthenticated = true,
-                                Role = reader.GetString(2)
-                            };
-                        }
-                        else
-                        {
-                            return new AuthenticatedModel
-                            {
-                                isAuthenticated = false,
-                            };
-                        }
-                        
+                            UserId = (int)reader["USER_ID"],
+                            UserName = (string)reader["USER_NAME"],
+                            isAuthenticated = true,
+                            Role = (string)reader["ROLE"]
+                        };
                     }
 
                 }
