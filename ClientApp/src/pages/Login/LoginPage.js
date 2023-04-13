@@ -52,10 +52,8 @@ function LoginPage() {
 
     });
 
-
     return (
         <div className="auth-main">
-
             <div className="form-main">
                 <TextField id="username" variant="outlined" placeholder="Username" name="username" onChange={handleChange} className="inputfield" />
                 <TextField id="password" variant="outlined" placeholder="Password" name="password" onChange={handleChange} className="inputfield" />
@@ -65,6 +63,8 @@ function LoginPage() {
             <hr></hr>
             <p>New Here?</p>
             <Button className="inputfield" onClick={() => { navigate('/') }}>SignUp</Button>
+
+
         </div>
 
     )

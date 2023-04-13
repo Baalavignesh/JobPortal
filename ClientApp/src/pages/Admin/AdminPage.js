@@ -38,19 +38,17 @@ function AdminPage() {
             body: JSON.stringify({ "CategoryName": allTextField.addcategory }),
         });
         const data = await response.json();
-        console.log(data);
         if (data.isInserted) {
             setServerResponse("New Category Successfully Added");
         }
         else {
             setServerResponse("Category Insert Failed");
         }
-        console.log(allTextField)
+        setTableData(false);
     }
 
     // Add a Sub Category
     let handleAddSubCategory = async () => {
-        console.log(allTextField)
         const response = await fetch('addsubcategory', {
             method: "POST",
             headers: {
@@ -59,13 +57,13 @@ function AdminPage() {
             body: JSON.stringify({ "SubCategoryName": allTextField.addsubcategory, "CategoryId": allTextField.categoryidforsub }),
         });
         const data = await response.json();
-        console.log(data);
         if (data.isInserted) {
             setServerResponse("New Sub Category Successfully Added");
         }
         else {
             setServerResponse("Sub Category Insert Failed");
         }
+        setTableData(false);
 
     }
 
@@ -79,19 +77,17 @@ function AdminPage() {
             body: JSON.stringify({ "CategoryId": parseInt(allTextField.deletecategory) }),
         });
         const data = await response.json();
-        console.log(data);
-        console.log(allTextField)
         if (data.isDeleted) {
             setServerResponse("Category Successfully Deleted");
         }
         else {
             setServerResponse("Category Delete Failed, " + data.title);
         }
+        setTableData(false);
     }
 
     // Delete Sub Category
     let handleDeleteSubCategory = async () => {
-        console.log(parseInt(allTextField.deletesubcategory));
 
         const response = await fetch('deletesubcategory', {
             method: "POST",
@@ -101,30 +97,28 @@ function AdminPage() {
             body: JSON.stringify({ "SubCategoryId": parseInt(allTextField.deletesubcategory) }),
         });
         const data = await response.json();
-        console.log(data);
-        console.log(allTextField)
         if (data.isDeleted) {
             setServerResponse("Sub Category Successfully Deleted");
         }
         else {
             setServerResponse("Sub Category Delete Failed");
         }
+        setTableData(false);
     }
 
     const buttonData = [
         { name: "addcategory", placeholder: "Add Category", color: "primary", background: "aliceblue", handlefunction: handleAddCategory },
         { name: "addsubcategory", placeholder: "Add Sub Category", color: "primary", background: "aliceblue", handlefunction: handleAddSubCategory, name2: "categoryidforsub", placeholder2: "Category Id", },
-        { name: "deletecategory", placeholder: "Delete Category", color: "error", background: "#fadcdc", handlefunction: handleDeleteCategory },
-        { name: "deletesubcategory", placeholder: "Delete Sub Category", color: "error", background: "#fadcdc", handlefunction: handleAddSubCategory, handlefunction: handleDeleteSubCategory }
+        { name: "deletecategory", placeholder: "Delete Category", color: "error", background: "aliceblue", handlefunction: handleDeleteCategory },
+        { name: "deletesubcategory", placeholder: "Delete Sub Category", color: "error", background: "aliceblue", handlefunction: handleAddSubCategory, handlefunction: handleDeleteSubCategory }
     ];
 
 
     useEffect(() => {
         setTableToogle(true);
         if (tableData.length > 0) {
-            console.log(tableData[0])
-            console.log(Object.keys(tableData[0]));
-            Object.keys(tableData[0]).map((val) => {
+
+            Object.keys(tableData[0]).forEach((val) => {
                 console.log(val)
             })
         }
@@ -132,10 +126,14 @@ function AdminPage() {
     }, [tableData])
 
 
+    useEffect(() => {
+        console.log(tableToggle);
+    }, [tableToggle])
+
+
     let handleViewCategory = async () => {
         const response = await fetch('getallcategory');
         const data = await response.json();
-        console.log(data);
 
         const trimmedArray = data.map(({ categoryId, categoryName }) => ({ categoryId, categoryName }));
         setTableData(trimmedArray);
@@ -150,10 +148,8 @@ function AdminPage() {
             },
         });
         const data = await response.json();
-        console.log(data);
 
         const trimmedArray = data.map(({ subCategoryId, subCategoryName, categoryId }) => ({ subCategoryId, subCategoryName, categoryId }));
-        console.log(trimmedArray)
         setTableData(trimmedArray);
 
     }
@@ -173,9 +169,6 @@ function AdminPage() {
             ...allTextField, [e.target.name]: e.target.value
         });
     }
-
-
-
 
     return (
         <div className="admin-main">
@@ -203,10 +196,11 @@ function AdminPage() {
                                 value={allTextField[button.name]}
                                 name={button.name} />
 
-                            <Button fullWidth
+                            <Button
                                 variant="contained"
                                 color={button.color}
                                 onClick={button.handlefunction}
+                                style={{margin:"1rem"}}
                             >
                                 {button.placeholder}</Button>
                         </div>
