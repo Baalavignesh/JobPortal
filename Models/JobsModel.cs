@@ -12,5 +12,7 @@
         public bool isFetched { get; set; }
         public bool isUpdated { get; set; }
         public bool isDeleted { get; set; }
+
+        public bool isSearched { get; set; }
     }
 }
