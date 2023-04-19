@@ -13,7 +13,8 @@ const context =  [
     "/deletesubcategory",
     "/getallcategory",
     "/getallsubcategory",
-    "/getalljob"
+    "/getalljob",
+    "/addjob"
 
 ];
 

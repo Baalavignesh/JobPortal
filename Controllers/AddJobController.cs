@@ -6,7 +6,7 @@ namespace JobPortal.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class AddJobController : Controller
+    public class AddJobController : ControllerBase
     {
         IConfiguration configuration;
 
@@ -18,8 +18,10 @@ namespace JobPortal.Controllers
         [HttpPost]
         public JobsModel AddJob([FromBody] JobsModel JobsInfo)
         {
+            Console.WriteLine("add job working");
             try
             {
+                Console.WriteLine("add job working");
                 Console.WriteLine(JobsInfo.JobId);
                 Console.WriteLine(JobsInfo.JobName);
 
@@ -32,7 +34,7 @@ namespace JobPortal.Controllers
 
                 try
                 {
-                    cmd.CommandText = $"INSERT INTO JOBS(JOB_TITLE,JOB_DESCRIBTION,SUBCATEGORY_ID,EMPLOYER_ID) VALUES ('{JobsInfo.JobName}','{JobsInfo.JobDescribtion}',{JobsInfo.SubCategoryId},{JobsInfo.EmployerId});";
+                    cmd.CommandText = $"INSERT INTO JOBS(JOB_TITLE,JOB_DESCRIPTION,SUBCATEGORY_ID,EMPLOYER_ID) VALUES ('{JobsInfo.JobName}','{JobsInfo.JobDescribtion}',{JobsInfo.SubCategoryId},{JobsInfo.EmployerId});";
                     cmd.ExecuteNonQuery();
                     return new JobsModel
                     {
