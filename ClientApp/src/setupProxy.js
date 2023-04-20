@@ -14,8 +14,8 @@ const context =  [
     "/getallcategory",
     "/getallsubcategory",
     "/getalljob",
-    "/addjob"
-
+    "/addjob",
+    "/search",
 ];
 
 module.exports = function(app) {

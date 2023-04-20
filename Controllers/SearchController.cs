@@ -9,19 +9,22 @@ namespace JobPortal.Controllers
     public class SearchController : Controller
     {
         IConfiguration configuration;
+        List<JobsModel> searched_jobs;
 
         public SearchController(IConfiguration configuration)
         {
             this.configuration = configuration;
         }
 
-        [HttpPost]
-        public JobsModel Search([FromBody] JobsModel JobsInfo, String character)
+        [HttpGet("{searchname}")]
+        public List<JobsModel> Search(string searchname)
         {
+            searched_jobs = new List<JobsModel>();
 
             try
             {
 
+                Console.WriteLine(searchname);
                 string conn = configuration.GetConnectionString("OnlineJobPortal");
 
                 SqlConnection connection = new SqlConnection();
@@ -31,22 +34,27 @@ namespace JobPortal.Controllers
 
                 try
                 {
-                    cmd.CommandText = $"SELECT * FROM JOBS LIKE %{character}";
+                    cmd.CommandText = $"SELECT * FROM JOBS WHERE JOB_TITLE LIKE '%{searchname}'";
 
+                    Console.WriteLine($"SELECT * FROM JOBS WHERE JOB_TITLE LIKE '%{searchname}'");
                     SqlDataReader reader = cmd.ExecuteReader();
 
-                    if (reader.Read())
+                    while (reader.Read())
                     {
+                        Console.WriteLine((int)reader["JOB_ID"]);
+                        searched_jobs.Add(
+                            new JobsModel
+                            {
+                                JobId = (int)reader["JOB_ID"],
+                                JobName = (string)reader["JOB_TITLE"],
+                                JobDescribtion = (string)reader["JOB_DESCRIPTION"],
+                                SubCategoryId = (int)reader["SUBCATEGORY_ID"],
+                                EmployerId = (int)reader["EMPLOYER_ID"],
+                                isFetched = true,
+                            }
+                        );
 
-                        return new JobsModel
-                        {
-                            JobId = (int)reader["JOB_ID"],
-                            JobName = (string)reader["JOB_TITLE"],
-                            JobDescribtion = (string)reader["JOB_DESCRIPTION"],
-                            SubCategoryId = (int)reader["SUBCATEGORY_ID"],
-                            EmployerId = (int)reader["EMPLOYER_ID"],
-                            isFetched = true,
-                        };
+                        return searched_jobs;
 
                     }
 
@@ -54,10 +62,11 @@ namespace JobPortal.Controllers
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    return new JobsModel
+                    searched_jobs.Add(new JobsModel
                     {
                         isFetched = false,
-                    };
+                    });
+                    return searched_jobs;
 
                 }
 
@@ -65,16 +74,18 @@ namespace JobPortal.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return new JobsModel
+                searched_jobs.Add(new JobsModel
                 {
                     isFetched = false,
-                };
+                });
+                return searched_jobs;
 
             }
-            return new JobsModel
+            searched_jobs.Add(new JobsModel
             {
                 isFetched = false,
-            };
+            });
+            return searched_jobs;
         }
     }
 }
